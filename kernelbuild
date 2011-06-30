@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#Set the $DATE
+DATE=$(date +"%m-%d-%Y")
+
+#cd to kernel source path.
+cd ~/github/inc
+ 
+#self explanitory....this does not change.
+make clean
+
+#defconfig for your device.
+make device_defconfig
+
+#your exports (this line doesnt change unless you are using a custom toolchain).
+export CCOMPILER=${HOME}/android/prebuilt/linux-x86/toolchain/arm-eabi-4.4.0/bin/arm-eabi-
+
+#delete any files left in /build dir of kernel src
+rm ~/github/inc/AnyKernel/kernel/zImage
+rm  ~/github/inc/AnyKernel/system/lib/modules/bcm4329.ko
+
+#make the build.
+make ARCH=arm CROSS_COMPILE=$CCOMPILER -j`grep 'processor' /proc/cpuinfo | wc -l`
+
+#move all the compiled files to the /build dir of your kernel source. NOTE: you must incude the META-INF from an anykernel in the /build dir.
+cp ~/github/inc/arch/arm/boot/zImage ~/github/inc/AnyKernel/kernel/zImage
+cp ~/github/inc/drivers/net/wireless/bcm4329/bcm4329.ko  ~/github/inc/AnyKernel/system/lib/modules/bcm4329.ko
+
+#go to your AnyKernel dir
+cd AnyKernel
+
+#zip the kernel up 
+zip -r kernel_$DATE.zip system kernel META-INF 
+
+#move to roms location
+mv ~/github/inc/AnyKernel/kernel_$DATE.zip ~/android/out/target/product/inc
+
+#Obviously
+exit

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Set the date
+DATE=$(date +"%m-%d-%Y")
+
+#cd to AOSP
+cd ~/android/
+
+#common sense
+make clean
+
+#Move gapps and META-INF to out folder
+cp ~/Documents/buildstuff/GAPPS.zip ~/android/out/target/product/inc/GAPPS.zip
+cd ~/Documents/buildstuff/META-INF
+zip -r META-INF.zip com CERT.RSA CERT.SF MANIFEST.MF
+mkdir ~/android/out/target/product/inc/META-INF
+cp META-INF.zip ~/android/out/target/product/inc/
+cd ~/android/out/target/product/inc/META-INF
+unzip META-INF.zip
+rm META-INF.zip
+
+#prepare for build
+. build/envsetup.sh
+
+#lunch build
+lunch full_inc-userdebug
+
+#build rom
+make
+
+#Transfer in su and superuser.apk
+cp ~/Documents/buildstuff/su ~/android/out/target/product/inc/system/xbin
+cp ~/Documents/buildstuff/Superuser.apk ~/android/out/target/product/inc/system/app
+cp ~/Documents/buildstuff/busybox ~/android/out/target/product/inc/system/xbin
+
+#cd to output folder
+cd ~/android/out/target/product/inc
+zip -r rom_$DATE.zip boot.img system META-INF
+
+#obviously
+exit
+
+
+
