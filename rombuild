@@ -10,24 +10,18 @@ cd ~/android/
 make clean
 
 #prepare for build
-cd ~/android
 . build/envsetup.sh
 
 #lunch build
 lunch full_inc-userdebug
 
 #build rom
-make -j8 otapackage
+make -j8
 
-#Move gapps and META-INF to out folder
-cp ~/Documents/buildstuff/GAPPS.zip ~/android/out/target/product/inc/GAPPS.zip
-cd ~/Documents/buildstuff/META-INF
-zip -r META-INF.zip com CERT.RSA CERT.SF MANIFEST.MF
-mkdir ~/android/out/target/product/inc/META-INF
-cp META-INF.zip ~/android/out/target/product/inc/
-cd ~/android/out/target/product/inc/META-INF
-unzip META-INF.zip
-rm META-INF.zip
+#Package and zip
+cd ~/android/out/target/product/inc
+cp ~/Documents/buildstuff/META-INF META-INF
+zip -r rom_$DATE.zip boot.img system META-INF
 
 #obviously
 exit
