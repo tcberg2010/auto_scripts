@@ -4,7 +4,7 @@
 DATE=$(date +"%m-%d-%Y")
 
 # Push Files
-adb push ~/android/out/target/product/inc/GAPPS.zip /sdcard/
+adb push ~/Documents/buildstuff/GAPPS.zip /sdcard/
 adb push ~/android/out/target/product/inc/kernel_$DATE.zip /sdcard/
 adb push ~/android/out/target/product/inc/rom_$DATE.zip /sdcard/
 
