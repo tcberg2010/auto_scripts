@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Set the date
-DATE=$(date +"%m-%d-%Y")
-
 #cd to AOSP
 cd ~/android/
 
@@ -16,7 +13,10 @@ make clean
 lunch full_inc-userdebug
 
 #build rom
-make -j8
+make -j`grep 'processor' /proc/cpuinfo | wc -l`
+
+# Set the date
+DATE=$(date +"%m-%d-%Y")
 
 #Package and zip
 cd ~/android/out/target/product/inc
