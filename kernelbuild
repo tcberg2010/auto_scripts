@@ -9,9 +9,6 @@ cd ~/github/inc
 #self explanitory....this does not change.
 make clean
 
-#defconfig for your device.
-make device_defconfig
-
 #your exports (this line doesnt change unless you are using a custom toolchain).
 export CCOMPILER=${HOME}/android/prebuilt/linux-x86/toolchain/arm-eabi-4.4.0/bin/arm-eabi-
 
