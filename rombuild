@@ -18,11 +18,6 @@ make -j`grep 'processor' /proc/cpuinfo | wc -l`
 # Set the date
 DATE=$(date +"%m-%d-%Y")
 
-#Package and zip
-cd ~/android/out/target/product/inc
-cp ~/Documents/buildstuff/META-INF META-INF
-zip -r rom_$DATE.zip boot.img system META-INF
-
 #obviously
 exit
 
